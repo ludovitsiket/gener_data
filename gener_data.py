@@ -3,22 +3,24 @@ import sys
 
 
 def begin_values():
-    keys = []
-    values = []
-    iterator = 0
-    return(keys, values, iterator)
+    return([], [], 0)
 
 
 def value_range():
-    min_v = float(sys.argv[1])
-    max_v = float(sys.argv[2])
-    return(min_v, max_v)
+    return(float(sys.argv[1]), float(sys.argv[2]))
 
 
 def write_data(keys, values):
     with open('sample_data.txt', 'w') as data_file:
         data_file.write(str(dict(zip(keys, values))))
     print('OK')
+
+
+def help_syntax():
+    print('Syntax: gener_data.py [minimum] [maximum] [number of values] [r/n]')
+    print('[r] - round values to integer')
+    print('[n] - not round values to integer')
+    print('Example: python3 gener_data.py 1 7 15 r')
 
 
 def decision(iterator, keys, values, min_value, max_value):
@@ -30,8 +32,7 @@ def decision(iterator, keys, values, min_value, max_value):
         elif sys. argv[4] == 'n':
             values.append(random.uniform(min_value, max_value))
         else:
-            print('Example: python3 gener_data.py 1 7 15 r')
-            sys.exit()
+            help_syntax()
     return(keys, values)
 
 
@@ -43,7 +44,7 @@ def main():
         write_data(keys, values)
     except (IndexError, ValueError) as e:
         print(e)
-        print('Example: python3 gener_data.py 1 7 15 r')
+        help_syntax()
 
 
 main()
