@@ -15,18 +15,35 @@ def value_range():
     return(min_v, max_v)
 
 
-try:
-    keys, values, iterator = begin_values()
-    min_value, max_value = value_range()
-    while iterator <= int(sys.argv[3]):
-        keys.append(iterator)
-        iterator += 1
-        if sys.argv[4] is 'r':
-            values.append(round(random.uniform(min_value, max_value)))
-        else:
-            values.append(random.uniform(min_value, max_value))
+def write_data(keys, values):
     with open('sample_data.txt', 'w') as data_file:
         data_file.write(str(dict(zip(keys, values))))
     print('OK')
-except (IndexError, ValueError) as e:
-    print(e)
+
+
+def decision(iterator, keys, values, min_value, max_value):
+    while iterator <= int(sys.argv[3]):
+        keys.append(iterator)
+        iterator += 1
+        if sys.argv[4] == 'r':
+            values.append(round(random.uniform(min_value, max_value)))
+        elif sys. argv[4] == 'n':
+            values.append(random.uniform(min_value, max_value))
+        else:
+            print('Example: python3 gener_data.py 1 7 15 r')
+            sys.exit()
+    return(keys, values)
+
+
+def main():
+    try:
+        keys, values, iterator = begin_values()
+        min_value, max_value = value_range()
+        keys, values = decision(iterator, keys, values, min_value, max_value)
+        write_data(keys, values)
+    except (IndexError, ValueError) as e:
+        print(e)
+        print('Example: python3 gener_data.py 1 7 15 r')
+
+
+main()
